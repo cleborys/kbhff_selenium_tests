@@ -1,6 +1,7 @@
 from kbhff.api.navigation import *
 from kbhff.api.webpage_patterns import get_verification_token_on_first_login
 from kbhff.api.webpage_patterns import input_verification_token
+from kbhff.api.webpage_patterns import create_password
 
 def delete_user(user_data):
     """Deletes the given user by logging in and following the deletion flow.
@@ -19,6 +20,8 @@ def delete_user(user_data):
         if driver.current_url == pages["bekraeft_konto"]: 
             token = get_verification_token_on_first_login(user_data["email"])
             input_verification_token(token, driver)
+            if driver.current_url == pages["opret_password"]:
+                create_password(user_data["password"], driver)
             login(driver, user_data["email"], user_data["password"])
         click_button(driver, class_name="button.warning")
         click_button(driver, class_name="button.delete_me")
