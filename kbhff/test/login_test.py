@@ -171,3 +171,12 @@ def test_directlyAccessOpretPasswordWhenNotLoggedIn(driver):
     assert_username_not_prefilled(driver)
     assert_text_on_page("Du prøvede at tilgå en side, du ikke har adgang til", driver)
 
+#Test specification number 20
+def test_directlyAccessOpretPasswordWhenLoggedIn(driver, verified_user):
+    user = verified_user
+
+    login(driver, user["email"], user["password"])
+    try_navigate_to_page("opret_password", driver)
+    
+    assert_current_page_is("min_side", driver)
+    assert_text_on_page("Prøvede du på at ændre din adgangskode?", driver)
