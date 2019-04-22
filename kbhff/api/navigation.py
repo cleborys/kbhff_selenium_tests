@@ -20,12 +20,38 @@ pages["bekraeft_konto"] = pages["login"] + "/bekraeft-konto"
 pages["opret_password"] = pages["login"] + "/opret-password"
 pages["kvittering"] = pages["signup"] + "/bekraeft/kvittering"
 
-def navigate_to_page(page_name, driver, new_tab=False):
-    """Navigate to the specified page.
+def try_navigate_to_page(page_name, driver, new_tab=False):
+    """Navigate to the specified page. Will not raise an error if the requested page could not be reached.
+    Returns window handle of the tab in which the page was opened.
 
     Positional arguments:
         page_name -- a string corresponding to the desired page. See supported values in code.
         driver -- the Selenium driver to use
+        new_tab -- if set to True, will open page in a new tab
+    """
+
+    if page_name in pages:
+        if new_tab:
+            old_window_handles = driver.window_handles
+            driver.execute_script(f"window.open('{pages[page_name]}')")
+            WebDriverWait(driver, 10).until(EC.number_of_windows_to_be(len(old_window_handles)+1))
+            new_window_handles = [x for x in driver.window_handles if x not in old_window_handles]
+        else:
+            driver.get(pages[page_name])
+            new_window_handles = [driver.current_window_handle]
+        assert len(new_window_handles) == 1
+        return new_window_handles[0]
+    else:
+        raise PageNotImplementedError(page_name, pages)
+
+def navigate_to_page(page_name, driver, new_tab=False):
+    """Navigate to the specified page. Will assert that the requested page is indeed reached.
+    Returns window handle of the tab in which the page was opened.
+
+    Positional arguments:
+        page_name -- a string corresponding to the desired page. See supported values in code.
+        driver -- the Selenium driver to use
+        new_tab -- if set to True, will open page in a new tab
     """
 
     if page_name in pages:
