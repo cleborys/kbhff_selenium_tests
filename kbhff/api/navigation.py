@@ -54,20 +54,9 @@ def navigate_to_page(page_name, driver, new_tab=False):
         new_tab -- if set to True, will open page in a new tab
     """
 
-    if page_name in pages:
-        if new_tab:
-            old_window_handles = driver.window_handles
-            driver.execute_script(f"window.open('{pages[page_name]}')")
-            WebDriverWait(driver, 10).until(EC.number_of_windows_to_be(len(old_window_handles)+1))
-            new_window_handles = [x for x in driver.window_handles if x not in old_window_handles]
-        else:
-            driver.get(pages[page_name])
-            new_window_handles = [driver.current_window_handle]
-        assert_current_page_is(page_name, driver, retry_count = 3)
-        assert len(new_window_handles) == 1
-        return new_window_handles[0]
-    else:
-        raise PageNotImplementedError(page_name, pages)
+    window_handle = try_navigate_to_page(page_name, driver, new_tab=new_tab)
+    assert_current_page_is(page_name, driver, retry_count = 3)
+    return window_handle
 
 def navigate_to_link(link, driver):
     """Navigates to specified URL."""
