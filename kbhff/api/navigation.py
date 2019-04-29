@@ -21,7 +21,7 @@ pages["opret_password"] = pages["login"] + "/opret-password"
 pages["kvittering"] = pages["signup"] + "/bekraeft/kvittering"
 
 def try_navigate_to_page(page_name, driver, new_tab=False):
-    """Navigate to the specified page. Will not raise an error if the requested page could not be reached.
+    """Navigate to the specified page. Does not check that the requested page was returned (e.g. that the website didn't redirect to a different page). 
     Returns window handle of the tab in which the page was opened.
 
     Positional arguments:
@@ -51,6 +51,8 @@ def navigate_to_page(page_name, driver, new_tab=False):
     Positional arguments:
         page_name -- a string corresponding to the desired page. See supported values in code.
         driver -- the Selenium driver to use
+
+    Optional arguments:
         new_tab -- if set to True, will open page in a new tab
     """
 
