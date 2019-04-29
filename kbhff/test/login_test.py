@@ -164,15 +164,15 @@ def test_nonuserLogin(driver):
     assert_text_on_page("Det indtastede brugernavn findes ikke i vores system.", driver)
 
 #Test specification number 20
-def test_directlyAccessOpretPasswordWhenNotLoggedIn(driver):
+def test_directlyAccessOpretPassword_whenNotLoggedIn(driver):
     try_navigate_to_page("opret_password", driver)
 
     assert_current_page_is("login", driver)
     assert_username_not_prefilled(driver)
     assert_text_on_page("Du prøvede at tilgå en side, du ikke har adgang til", driver)
 
-#Test specification number 20
-def test_directlyAccessOpretPasswordWhenLoggedIn(driver, verified_user):
+#Test specification number 21
+def test_directlyAccessOpretPassword_whenLoggedIn(driver, verified_user):
     user = verified_user
 
     login(driver, user["email"], user["password"])
