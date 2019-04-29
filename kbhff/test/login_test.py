@@ -8,7 +8,7 @@ import time
 
 
 # Test specification number 1
-def test_unverifiedUserFirstLogin(driver, gmail, unverified_user_via_medlemshjaelp):
+def test_unverifiedUser_firstLogin(driver, gmail, unverified_user_via_medlemshjaelp):
     user = unverified_user_via_medlemshjaelp
 
     try_login(driver, user["email"], user["password"])
@@ -22,7 +22,7 @@ def test_unverifiedUserFirstLogin(driver, gmail, unverified_user_via_medlemshjae
 
 
 # Test specification number 2
-def test_unverifiedUserFirstLoginDuplicateVerificationTab(driver, gmail, unverified_user_via_medlemshjaelp):
+def test_unverifiedUser_firstLogin_duplicateVerificationTab(driver, gmail, unverified_user_via_medlemshjaelp):
     user = unverified_user_via_medlemshjaelp
 
     first_tab = navigate_to_page("login", driver)
@@ -49,7 +49,7 @@ def test_unverifiedUserFirstLoginDuplicateVerificationTab(driver, gmail, unverif
 
 
 # Test specification number 3
-def test_unverifiedUserFirstLoginDuplicatePasswordTab(driver, gmail, unverified_user_via_medlemshjaelp):
+def test_unverifiedUser_firstLogin_duplicatePasswordTab(driver, gmail, unverified_user_via_medlemshjaelp):
     user = unverified_user_via_medlemshjaelp
 
     first_tab = navigate_to_page("login", driver)
@@ -78,7 +78,7 @@ def test_unverifiedUserFirstLoginDuplicatePasswordTab(driver, gmail, unverified_
 
 
 #Test specification number 4
-def test_unverifiedUserWithPasswordFirstLogin(driver, gmail, unverified_user_via_webform):
+def test_unverifiedUserWithPassword_firstLogin(driver, gmail, unverified_user_via_webform):
     user = unverified_user_via_webform
 
     navigate_to_page("login", driver)
@@ -92,7 +92,7 @@ def test_unverifiedUserWithPasswordFirstLogin(driver, gmail, unverified_user_via
 
 
 #Test specification number 5
-def test_unverifiedUserWithPasswordFirstLoginIncorrectCode(driver, unverified_user_via_webform):
+def test_unverifiedUserWithPassword_firstLogin_incorrectCode(driver, unverified_user_via_webform):
     user = unverified_user_via_webform
 
     navigate_to_page("login", driver)
@@ -106,7 +106,7 @@ def test_unverifiedUserWithPasswordFirstLoginIncorrectCode(driver, unverified_us
 
 
 #Test specification number 6
-def test_unverifiedUserWithPasswordFirstLoginDuplicateVerificationTab(driver, gmail, unverified_user_via_webform):
+def test_unverifiedUserWithPassword_firstLogin_duplicateVerificationTab(driver, gmail, unverified_user_via_webform):
     user = unverified_user_via_webform
 
     first_tab = navigate_to_page("login", driver)
@@ -132,7 +132,7 @@ def test_unverifiedUserWithPasswordFirstLoginDuplicateVerificationTab(driver, gm
 
 #Test specification number 7, 
 #contrary to specification this is test 5 with signup via medlemshjaelp
-def test_unverifiedUserWithoutPasswordFirstLoginIncorrectCode(driver, unverified_user_via_medlemshjaelp):
+def test_unverifiedUserWithoutPassword_firstLogin_incorrectCode(driver, unverified_user_via_medlemshjaelp):
     user = unverified_user_via_medlemshjaelp
 
     navigate_to_page("login", driver)
