@@ -2,6 +2,32 @@ import easyimap, email
 from kbhff.api.exceptions import *
 import time
 
+class GmailConnection:
+    def __init__(self):
+        self.connection = None
+        self.mail_credentials = get_mail_credentials()
+        self.connect()
+
+    def __del__(self):
+        if self.connection is not None:
+            self.connection.quit()
+    
+    def connect(self):
+        if self.connection is not None:
+            self.connection.quit()
+        address = self.mail_credentials["login"]
+        password = self.mail_credentials["password"]
+        self.connection = easyimap.connect ('imap.gmail.com', address, password)
+
+    def listup(self, number_of_mails = 25, retries_left = 3):
+        try:
+            return self.connection.listup(number_of_mails)
+        except imaplib.IMAP4.abort:
+            if retries_left < 1:
+                raise GmailConnectionError
+            self.connect()
+            return self.listup(number_of_mails, retries_left-1)
+
 def get_mail_credentials():
     try:
         # check if module exists:
@@ -14,14 +40,8 @@ def get_mail_credentials():
         mail_credentials["login"] = environ["MAIL_CREDENTIALS_EMAIL"]
         mail_credentials["password"] = environ["MAIL_CREDENTIALS_PASSWORD"]
     return mail_credentials
-    
-    
-def get_gmail_connection(address = None, password = None):
-    if address is None:
-        address = get_mail_credentials()["login"]
-    if password is None:
-        password = get_mail_credentials()["password"]
-    return easyimap.connect ('imap.gmail.com', address, password)
+
+
 
 def get_latest_mail_to(to_address, email_connection = None, expect_title = None, retry_count = 10):
     """ Receive latest email sent to to_address.
@@ -34,7 +54,7 @@ def get_latest_mail_to(to_address, email_connection = None, expect_title = None,
 
     connection_is_temporary = (email_connection is None)
     if connection_is_temporary:
-        email_connection = get_gmail_connection()
+        email_connection = GmailConnection()
 
     def mail_match(mail):
         return mail.to == to_address and (expect_title == mail.title or expect_title is None)
@@ -45,9 +65,6 @@ def get_latest_mail_to(to_address, email_connection = None, expect_title = None,
             break
         time.sleep(1)
         matches = list(filter(mail_match, email_connection.listup(25))) 
-
-    if connection_is_temporary:
-        email_connection.quit()
 
     if len(matches) > 0:
         return matches[0]
