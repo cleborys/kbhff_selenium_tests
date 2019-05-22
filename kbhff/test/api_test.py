@@ -122,5 +122,5 @@ def test_haveMailCredentials():
 
 def test_canLogIntoGmail():
     # raises imaplib.error if e.g. authentication fails
-    gmail = get_gmail_connection()
-    gmail.quit()
+    gmail = GmailConnection()
+    del gmail
