@@ -35,3 +35,7 @@ class UnexpectedPageError(KbhffApiError):
 class TextNotFoundOnPageError(KbhffApiError):
     """ Raised when expected text is not shown on current page. """
     pass
+
+class GmailConnectionError(KbhffApiError):
+    """Raised when the connection to gmail fails. """
+    pass

@@ -9,9 +9,8 @@ from pyvirtualdisplay import Display
 
 @pytest.fixture(scope="module")
 def gmail():
-    gmail = get_gmail_connection()
+    gmail = GmailConnection()
     yield gmail
-    gmail.quit()
 
 @pytest.fixture(scope="function", params = [webdriver.Firefox, webdriver.Chrome] )
 def driver(request):
