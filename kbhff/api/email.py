@@ -1,6 +1,8 @@
 import easyimap, email
 from kbhff.api.exceptions import *
 import time
+import imaplib
+
 
 class GmailConnection:
     def __init__(self):
