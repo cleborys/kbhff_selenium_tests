@@ -124,3 +124,7 @@ def test_canLogIntoGmail():
     # raises imaplib.error if e.g. authentication fails
     gmail = GmailConnection()
     del gmail
+
+def test_GmailConnectionCanHandleFastQueries(gmail):
+    for _ in range(10):
+        last_mails = gmail.listup()
