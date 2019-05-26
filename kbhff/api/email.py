@@ -2,6 +2,7 @@ import easyimap, email
 from kbhff.api.exceptions import *
 import time
 import imaplib
+import sys
 
 class GmailConnection:
     def __init__(self):
@@ -24,6 +25,7 @@ class GmailConnection:
         try:
             return self.connection.listup(number_of_mails)
         except imaplib.IMAP4.abort:
+            sys.stderr.write("Gmail connection had to reconnect after IMAP4.abort")
             if retries_left < 1:
                 raise GmailConnectionError
             time.sleep(1)

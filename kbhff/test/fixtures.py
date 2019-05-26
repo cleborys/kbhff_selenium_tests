@@ -7,7 +7,7 @@ from kbhff.api.delete_user import *
 
 from pyvirtualdisplay import Display
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def gmail():
     gmail = GmailConnection()
     yield gmail

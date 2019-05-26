@@ -21,3 +21,7 @@
 There are two ways to use this package with a gmail account.
   1. Define two environment variables `MAIL_CREDENTIALS_EMAIL` containing your gmail address as string and `MAIL_CREDENTIALS_PASSWORD` containing the password to your account as string
   2. Add a `mail_credentials.py` file to `kbhff/api/` as in the first installation step above. This file should define a `dict` called `mail_credentials` with keys `"login"` and `"password"` mapping your gmail address and its password as strings. Make sure to (re)install after adding this file.
+
+## Further Notes
+
+It might be advisable to limit the concurrent jobs on TravisCI to e.g. one, as connecting to gmail is significantly slower and possibly more prone to errors if there are competing instances trying to connect.

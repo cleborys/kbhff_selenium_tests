@@ -17,4 +17,4 @@ install:
   - pip install -r requirements.txt
 # run tests
 script:
-  - pytest
+  - pytest --maxfail=1 -ra
