@@ -24,6 +24,7 @@ class GmailConnection:
         try:
             return self.connection.listup(number_of_mails)
         except imaplib.IMAP4.abort:
+            print(" Reconnecting to Gmail... {} tries left.".format(retries_left))
             if retries_left < 1:
                 raise GmailConnectionError
             self.connect()
