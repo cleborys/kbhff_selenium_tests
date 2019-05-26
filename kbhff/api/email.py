@@ -18,15 +18,15 @@ class GmailConnection:
             self.connection.quit()
         address = self.mail_credentials["login"]
         password = self.mail_credentials["password"]
-        self.connection = easyimap.connect ('imap.gmail.com', address, password)
+        self.connection = easyimap.connect('imap.gmail.com', address, password)
 
-    def listup(self, number_of_mails = 25, retries_left = 3):
+    def listup(self, number_of_mails = 25, retries_left = 100):
         try:
             return self.connection.listup(number_of_mails)
         except imaplib.IMAP4.abort:
-            print(" Reconnecting to Gmail... {} tries left.".format(retries_left))
             if retries_left < 1:
                 raise GmailConnectionError
+            time.sleep(1)
             self.connect()
             return self.listup(number_of_mails, retries_left-1)
 
@@ -44,13 +44,12 @@ def get_mail_credentials():
     return mail_credentials
 
 
-
 def get_latest_mail_to(to_address, email_connection = None, expect_title = None, retry_count = 10):
     """ Receive latest email sent to to_address.
 
     Optional parameters:
         expect_title --- if set, emails with titles that aren't an exact match will be ignored
-        retry --- retry this many times with a second's delay each
+        retry --- retry this many times with a 10 second of delay between each
         email_connection --- if an easyimap imapper with an existing connection is passed, this will be used to look up emails. Otherwise, a default connection as passed by get_gmail_connection is established and used.
     """
 
@@ -65,7 +64,7 @@ def get_latest_mail_to(to_address, email_connection = None, expect_title = None,
     for i in range(0,retry_count):
         if len(matches) > 0:
             break
-        time.sleep(1)
+        time.sleep(10)
         matches = list(filter(mail_match, email_connection.listup(25))) 
 
     if len(matches) > 0:
